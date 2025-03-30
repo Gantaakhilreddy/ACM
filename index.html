@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VVITU-ACM | Association for Computing Machinery</title>
+  <style>
+    :root {
+      --primary: #00629B;
+      --secondary: #E57200;
+      --accent: #232D4B;
+      --light: #f8f9fa;
+      --dark: #212529;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      width: 85%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      margin-right: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover img {
+      transform: rotate(5deg) scale(1.05);
+    }
+
+    .logo-text h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .logo-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+      position: relative;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 5px 0;
+    }
+
+    nav ul li a:hover {
+      color: var(--secondary);
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--secondary);
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      background: url('img.png') no-repeat center center/cover;
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      max-width: 600px;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 1s ease-out 0.3s forwards;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: var(--secondary);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      background-color: #d16600;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::after {
+      left: 100%;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      margin-left: 15px;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    section {
+      padding: 5rem 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--secondary);
+      animation: expandLine 1s ease-out 0.5s forwards;
+      transform-origin: center;
+      transform: scaleX(0);
+    }
+
+    @keyframes expandLine {
+      to {
+        transform: scaleX(1) translateX(-50%);
+      }
+    }
+
+    .about {
+      background-color: var(--light);
+    }
+
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text p {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.5s ease;
+    }
+
+    .about-text p:nth-child(1) { transition-delay: 0.2s; }
+    .about-text p:nth-child(2) { transition-delay: 0.4s; }
+    .about-text p:nth-child(3) { transition-delay: 0.6s; }
+
+    .about.show .about-text p {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .about-image {
+      flex: 1;
+      perspective: 1000px;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transform: rotateY(20deg);
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+
+    .about.show .about-image img {
+      transform: rotateY(0);
+      opacity: 1;
+    }
+
+    .events {
+      background-color: white;
+    }
+
+    .event-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .event-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      transform: scale(0.95);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .events.show .event-card {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .events.show .event-card:nth-child(1) { transition-delay: 0.2s; }
+    .events.show .event-card:nth-child(2) { transition-delay: 0.4s; }
+    .events.show .event-card:nth-child(3) { transition-delay: 0.6s; }
+
+    .event-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .event-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .event-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .event-card-content {
+      padding: 20px;
+    }
+
+    .event-card h3 {
+      margin-top: 0;
+      color: var(--primary);
+      transition: color 0.3s ease;
+    }
+
+    .event-card:hover h3 {
+      color: var(--secondary);
+    }
+
+    .event-card .date {
+      color: var(--secondary);
+      font-weight: bold;
+      margin: 10px 0;
+      display: block;
+    }
+
+    .team {
+      background-color: var(--light);
+    }
+
+    .team-members {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .member-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px;
+      transition: all 0.3s ease;
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    .team.show .member-card {
+      transform: translateY(0);
+      opacity: 1;
+      transition: all 0.5s ease;
+    }
+
+    .team.show .member-card:nth-child(1) { transition-delay: 0.1s; }
+    .team.show .member-card:nth-child(2) { transition-delay: 0.2s; }
+    .team.show .member-card:nth-child(3) { transition-delay: 0.3s; }
+    .team.show .member-card:nth-child(4) { transition-delay: 0.4s; }
+    .team.show .member-card:nth-child(5) { transition-delay: 0.5s; }
+    .team.show .member-card:nth-child(6) { transition-delay: 0.6s; }
+
+    .member-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .member-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 5px solid var(--light);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .member-card:hover img {
+      transform: scale(1.05);
+      border-color: var(--secondary);
+    }
+
+    .member-card h3 {
+      margin: 0;
+      color: var(--primary);
+      transition: color 0.3s ease;
+    }
+
+    .member-card:hover h3 {
+      color: var(--secondary);
+    }
+
+    .member-card p {
+      color: var(--secondary);
+      font-weight: bold;
+      margin: 5px 0 15px;
+    }
+
+    .registration {
+      background-color: white;
+    }
+
+    .registration-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--light);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: scale(0.95);
+      opacity: 0;
+      transition: all 0.5s ease 0.3s;
+    }
+
+    .registration.show .registration-form {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 98, 155, 0.1);
+      outline: none;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      text-align: center;
+    }
+
+    footer {
+      background-color: var(--accent);
+      color: white;
+      padding: 3rem 0 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    footer.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 2rem;
+    }
+
+    .footer-column {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    footer.show .footer-column:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    footer.show .footer-column:nth-child(2) {
+      transition-delay: 0.3s;
+    }
+
+    footer.show .footer-column:nth-child(3) {
+      transition-delay: 0.5s;
+    }
+
+    footer.show .footer-column {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-column h3 {
+      color: var(--secondary);
+      margin-top: 0;
+      position: relative;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background-color: var(--secondary);
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column ul li a {
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer-column ul li a:hover {
+      color: var(--secondary);
+      transform: translateX(5px);
+    }
+
+    .footer-column ul li i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .social-links a:hover {
+      color: var(--secondary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav ul {
+        margin-top: 20px;
+        justify-content: center;
+      }
+
+      .about-content {
+        flex-direction: column;
+      }
+
+      .hero-content {
+        text-align: center;
+      }
+
+      .btn-outline {
+        margin-left: 0;
+        margin-top: 15px;
+        display: block;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <img src="1729492345190.jpg" alt="ACM Logo">
+        <div class="logo-text">
+          <h1>VVITU-ACM</h1>
+          <p>Association for Computing Machinery</p>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#spardha">Spardha</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Welcome to VVITU-ACM Student Chapter</h1>
+      <p>Join us in exploring the fascinating world of computing through workshops, hackathons, and technical events every Friday. Don't miss our annual technical fest "Spardha" with exciting competitions and learning opportunities.</p>
+      <a href="#register" class="btn">Register Now</a>
+      <a href="#events" class="btn btn-outline">View Events</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="section-title">
+      <h2>About VVITU-ACM</h2>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <p>The Association for Computing Machinery (ACM) at Vasireddy Venkatadri International Technological University (VVITU) is a vibrant student community dedicated to advancing computing as a science and profession.</p>
+        <p>Our chapter organizes regular technical events, workshops, and competitions to help students enhance their skills, network with professionals, and stay updated with the latest trends in technology.</p>
+        <p>Every Friday, we host engaging sessions ranging from coding challenges to expert talks. Our annual technical fest "Spardha" is the highlight of the year, featuring hackathons, quizzes, and innovation challenges.</p>
+      </div>
+      <div class="about-image">
+        <img src="ACMTEAM.jpg" alt="ACM Team">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="events" class="events">
+  <div class="container">
+    <div class="section-title">
+      <h2>Friday Tech Events</h2>
+    </div>
+    <div class="event-cards">
+      <div class="event-card">
+        <img src="HourOfCode.jpg" alt="Coding Workshop">
+        <div class="event-card-content">
+          <h3>Hour Of Code...</h3>
+          <span class="date">Friday</span>
+          <p>Deep dive into algorithms and problem-solving techniques with our expert faculty members. Perfect for competitive programming enthusiasts.</p>
+        </div>
+      </div>
+      <div class="event-card">
+        <img src="aavega.jpg" alt="Tech Talk">
+        <div class="event-card-content">
+          <h3>Aavega...</h3>
+          <span class="date">Friday</span>
+          <p>Learn about cutting-edge technologies like AI, Blockchain, and Quantum Computing from industry professionals and researchers.</p>
+        </div>
+      </div>
+      <div class="event-card">
+        <img src="Cryptic%20Clue.jpg" alt="Hackathon">
+        <div class="event-card-content">
+          <h3>Cryptic Clue...</h3>
+          <span class="date">Friday</span>
+          <p>Collaborative coding sessions where students work on projects, solve real-world problems, and build their portfolios.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="team" class="team">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Core Team</h2>
+    </div>
+    <div class="team-members">
+      <div class="member-card">
+        <img src="FacultySponsor.jpg" alt="Faculty Advisor">
+        <h3>B.Sai Jyothi</h3>
+        <p>Faculty Sponsor</p>
+        <p>Professor, IT Department</p>
+      </div>
+      <div class="member-card">
+        <img src="Chair.jpg" alt="Chairperson">
+        <h3>K. Bhargav Sai</h3>
+        <p>Chairperson</p>
+      </div>
+      <div class="member-card">
+        <img src="Vice-Chair.jpg" alt="Vice Chair">
+        <h3>V.Rakesh Firoz</h3>
+        <p>Vice Chair</p>
+      </div>
+      <div class="member-card">
+        <img src="WebMaster.jpg" alt="Secretary">
+        <h3>T.Bharath</h3>
+        <p>Secretary</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="register" class="registration">
+  <div class="container">
+    <div class="section-title">
+      <h2>Register Now</h2>
+      <p>Sign up for Spardha Tech Fest and our Friday Tech Events</p>
+    </div>
+    <div class="registration-form">
+      <form>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="year">Academic Year</label>
+          <select id="year" name="year" required>
+            <option value="">Select Year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="branch">Branch</label>
+          <select id="branch" name="branch" required>
+            <option value="">Select Branch</option>
+            <option value="cse">Computer Science</option>
+            <option value="it">Information Technology</option>
+            <option value="ece">Electronics</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Events to Register For</label>
+          <div>
+            <input type="checkbox" id="spardha" name="events" value="spardha">
+            <label for="spardha" style="display: inline;">Spardha Tech Fest (All Events)</label>
+          </div>
+          <div>
+            <input type="checkbox" id="algorithm" name="events" value="algorithm">
+            <label for="algorithm" style="display: inline;">Algorithm Masterclass (Friday Event)</label>
+          </div>
+          <div>
+            <input type="checkbox" id="techtalks" name="events" value="techtalks">
+            <label for="techtalks" style="display: inline;">Emerging Tech Talks (Friday Event)</label>
+          </div>
+          <div>
+            <input type="checkbox" id="hacknight" name="events" value="hacknight">
+            <label for="hacknight" style="display: inline;">Friday Hack Nights (Friday Event)</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Any Questions or Comments?</label>
+          <textarea id="message" name="message"></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn">Submit Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>VVITU-ACM</h3>
+        <p>The Association for Computing Machinery student chapter at Vasireddy Venkatadri International Technological University.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li><a href="#events"><i class="fas fa-chevron-right"></i> Friday Events</a></li>
+          <li><a href="#spardha"><i class="fas fa-chevron-right"></i> Spardha Tech Fest</a></li>
+          <li><a href="#team"><i class="fas fa-chevron-right"></i> Our Team</a></li>
+          <li><a href="#register"><i class="fas fa-chevron-right"></i> Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Vasireddy Venkatadri International Technological University, Nambur, Andhra Pradesh 522508</li>
+          <li><i class="fas fa-envelope"></i> acm@vvitu.edu.in</li>
+          <li><i class="fas fa-phone"></i> +91 9876543210</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 VVITU-ACM Student Chapter. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll animation
+  document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section, footer');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
